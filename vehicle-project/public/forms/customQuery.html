@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Query Dashboard</title>
+  <style>
+    :root {
+      --primary-color: #4361ee;
+      --primary-hover: #3a56d4;
+      --accent-color: #f72585;
+      --background-color: #f8f9fa;
+      --card-bg: white;
+      --text-color: #333;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --border-radius: 12px;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--background-color);
+      margin: 0;
+      padding: 0;
+      color: var(--text-color);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    header {
+      background: var(--primary-color);
+      color: white;
+      padding: 20px 0;
+      margin-bottom: 40px;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+    
+    h2 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 600;
+    }
+    
+    h3 {
+      margin: 20px 0;
+      font-size: 22px;
+      font-weight: 600;
+      color: #444;
+    }
+    
+    .container {
+      max-width: 1000px;
+      margin: 0 auto 40px;
+      padding: 0 20px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 30px;
+      margin-bottom: 30px;
+    }
+    
+    .query-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    
+    .query-button {
+      display: block;
+      background: var(--card-bg);
+      border-radius: 8px;
+      overflow: hidden;
+      height: 100%;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .query-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    button {
+      width: 100%;
+      height: 100%;
+      min-height: 80px;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 15px;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    
+    button:hover {
+      background: var(--primary-hover);
+    }
+    
+    .custom-query {
+      margin-top: 40px;
+    }
+    
+    textarea {
+      width: 100%;
+      height: 120px;
+      padding: 15px;
+      font-family: monospace;
+      font-size: 14px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      box-sizing: border-box;
+      margin-bottom: 20px;
+      resize: vertical;
+    }
+    
+    textarea:focus {
+      border-color: var(--primary-color);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+    }
+    
+    .run-button {
+      width: auto;
+      display: block;
+      margin: 0 auto;
+      padding: 14px 40px;
+      font-size: 16px;
+    }
+    
+    .back-link {
+      text-align: center;
+      margin-top: 20px;
+      padding-bottom: 20px;
+    }
+    
+    a {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 500;
+      display: inline-block;
+      transition: color 0.3s;
+    }
+    
+    a:hover {
+      color: var(--primary-hover);
+      text-decoration: underline;
+    }
+    
+    footer {
+      margin-top: auto;
+      background: #f0f2f5;
+      padding: 15px;
+      text-align: center;
+      font-size: 14px;
+      color: #666;
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 15px;
+      }
+      
+      .card {
+        padding: 20px;
+      }
+      
+      .query-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h2>Vehicle Rental Custom Query</h2>
+  </header>
+  
+  <div class="container">
+    <div class="card">
+      <h3>Predefined Queries</h3>
+      <div class="query-grid">
+        <div class="query-button">
+          <form method="POST" action="/run-query">
+            <input type="hidden" name="sql" value="SELECT VehicleID, RegistrationNo, Brand, Model, Type, SeatingCapacity, PricePerDay FROM Vehicle WHERE Status = 'Available';">
+            <button type="submit">1. Show Available Vehicles</button>
+          </form>
+        </div>
+        
+        <div class="query-button">
+          <form method="POST" action="/run-query">
+            <input type="hidden" name="sql" value="SELECT R.RentalID, C.Name AS CustomerName, V.VehicleID, V.Brand, V.Model, V.Type, L.Name AS LenderName, R.StartDate, R.EndDate, R.TotalCost FROM RentalAgreement R JOIN Vehicle V ON R.VehicleID = V.VehicleID JOIN VehicleBorrower C ON R.CustomerID = C.CustomerID JOIN VehicleLender L ON R.LenderID = L.LenderID WHERE R.Status = 'Active';">
+            <button type="submit">2. Active Rentals Report</button>
+          </form>
+        </div>
+
+        <div class="query-button">
+          <form method="POST" action="/run-query">
+            <input type="hidden" name="sql" value="SELECT L.Name AS LenderName, SUM(R.TotalCost) AS TotalRevenue FROM RentalAgreement R JOIN VehicleLender L ON R.LenderID = L.LenderID GROUP BY L.Name ORDER BY TotalRevenue DESC;">
+            <button type="submit">3. Total Revenue by Lender</button>
+          </form>
+        </div>
+        
+        <div class="query-button">
+          <form method="POST" action="/run-query">
+            <input type="hidden" name="sql" value="SELECT C.CustomerID, C.Name, C.ContactInfo, C.Address FROM VehicleBorrower C WHERE C.CustomerID = ( SELECT R.CustomerID FROM RentalAgreement R GROUP BY R.CustomerID ORDER BY SUM(R.TotalCost) DESC LIMIT 1 );">
+            <button type="submit">4. Top Spending Customer</button>
+          </form>
+        </div>
+        
+        <div class="query-button">
+          <form method="POST" action="/run-query">
+            <input type="hidden" name="sql" value="SELECT V.VehicleID, V.Brand, V.Model, V.SeatingCapacity, V.PricePerDay FROM Vehicle V WHERE V.Status = 'Available' AND V.SeatingCapacity > 5;">
+            <button type="submit">5. Available Vehicles (Seating > 5)</button>
+          </form>
+        </div>
+        
+        <div class="query-button">
+          <form method="POST" action="/run-query">
+            <input type="hidden" name="sql" value="SELECT L.LenderID, L.Name, COUNT(R.VehicleID) AS VehiclesRented FROM RentalAgreement R JOIN VehicleLender L ON R.LenderID = L.LenderID GROUP BY L.LenderID, L.Name HAVING COUNT(R.VehicleID) > 2;">
+            <button type="submit">6. Lenders with >2 Rentals</button>
+          </form>
+        </div>
+        
+        <div class="query-button">
+          <form method="POST" action="/run-query">
+            <input type="hidden" name="sql" value="
+            UPDATE Vehicle 
+            SET Status = 'Available' 
+            WHERE VehicleID IN (
+              SELECT VehicleID FROM RentalAgreement 
+              WHERE EndDate < CURDATE() AND Status = 'Active'
+            );
+            UPDATE RentalAgreement SET Status = 'Completed' WHERE EndDate < CURDATE() AND Status = 'Active';">  
+            <button type="submit">7. Mark Old Rentals as Completed</button>
+          </form>
+        </div>
+        
+        <div class="query-button">
+          <form method="POST" action="/run-query">
+            <input type="hidden" name="sql" value="DELETE FROM RentalAgreement WHERE Status = 'Completed' AND EndDate < DATE_SUB(CURDATE(), INTERVAL 1 YEAR);">
+            <button type="submit">8. Delete Old Completed Rentals</button>
+          </form>
+        </div>
+        
+        <div class="query-button">
+          <form method="POST" action="/run-query">
+            <input type="hidden" name="sql" value="SELECT VehicleID, Brand, Model, CASE WHEN Status = 'Available' THEN 'Ready for Rent' WHEN Status = 'Rented' THEN 'Currently Rented' WHEN Status = 'Under Maintenance' THEN 'Needs Maintenance' ELSE 'Unknown Status' END AS StatusDescription FROM Vehicle;">
+            <button type="submit">9. Display All Vehicle's Status</button>
+          </form>
+        </div>
+        
+        <div class="query-button">
+          <form method="POST" action="/run-query">
+            <input type="hidden" name="sql" value="SELECT C.CustomerID, C.Name, C.ContactInfo, SUM(R.TotalCost) AS TotalSpent FROM RentalAgreement R JOIN VehicleBorrower C ON R.CustomerID = C.CustomerID GROUP BY C.CustomerID, C.Name, C.ContactInfo ORDER BY TotalSpent DESC LIMIT 3;">
+            <button type="submit">10. Top 3 Customers by Spending</button>
+          </form>
+        </div>
+      </div>
+      
+      <div class="custom-query">
+        <h3>Custom SQL Query</h3>
+        <form action="/run-query" method="POST">
+          <textarea name="sql" placeholder="Write your SQL query here..."></textarea>
+          <button class="run-button" type="submit">Run Custom Query</button>
+        </form>
+      </div>
+      
+      <div class="back-link">
+        <a href="/forms/dashboard.html">← Back to Dashboard</a>
+      </div>
+    </div>
+  </div>
+  
+  <footer>
+    &copy; 2025 Vehicle Rental System
+  </footer>
+</body>
+</html>

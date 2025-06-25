@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vehicle Rental Dashboard</title>
+  <style>
+    :root {
+      --primary-color: #4361ee;
+      --primary-hover: #3a56d4;
+      --accent-color: #f72585;
+      --background-color: #f8f9fa;
+      --card-bg: white;
+      --text-color: #333;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --border-radius: 12px;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--background-color);
+      margin: 0;
+      padding: 0;
+      color: var(--text-color);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    
+    header {
+      background: var(--primary-color);
+      color: white;
+      padding: 20px 0;
+      margin-bottom: 40px;
+      box-shadow: var(--shadow);
+    }
+    
+    h2 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 600;
+      text-align: center;
+    }
+    
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 40px;
+    }
+    
+    .menu {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      margin: auto;
+    }
+    
+    .menu-item {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      transition: transform 0.2s, box-shadow 0.2s;
+      overflow: hidden;
+    }
+    
+    .menu-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    a {
+      color: var(--text-color);
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 25px 20px;
+      height: 100%;
+      box-sizing: border-box;
+    }
+    
+    .icon {
+      font-size: 28px;
+      margin-bottom: 15px;
+      color: var(--primary-color);
+    }
+    
+    .label {
+      font-weight: 500;
+    }
+    
+    footer {
+      margin-top: auto;
+      background: #f0f2f5;
+      padding: 20px;
+      text-align: center;
+      font-size: 14px;
+      color: #666;
+    }
+    
+    @media (max-width: 768px) {
+      .menu {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .menu {
+        grid-template-columns: 1fr;
+      }
+      
+      .container {
+        padding: 20px 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h2>🚘 Vehicle Rental System</h2>
+  </header>
+  
+  <div class="container">
+    <p class="subtitle">Management Dashboard</p>
+    
+    <div class="menu">
+      <div class="menu-item">
+        <a href="/forms/customQuery.html">
+          <div class="icon">🛠</div>
+          <div class="label">Run Custom SQL Query</div>
+        </a>
+      </div>
+      
+      <div class="menu-item">
+        <a href="/forms/registerCustomer.html">
+          <div class="icon">🧍</div>
+          <div class="label">Register New Customer</div>
+        </a>
+      </div>
+      
+      <div class="menu-item">
+        <a href="/forms/registerLender.html">
+          <div class="icon">👤</div>
+          <div class="label">Register New Lender</div>
+        </a>
+      </div>
+      
+      <div class="menu-item">
+        <a href="/forms/addVehicle.html">
+          <div class="icon">🚗</div>
+          <div class="label">Add a Vehicle</div>
+        </a>
+      </div>
+      
+      <div class="menu-item">
+        <a href="/forms/searchVehicles.html">
+          <div class="icon">🔎</div>
+          <div class="label">Search Available Vehicles</div>
+        </a>
+      </div>
+      
+      <div class="menu-item">
+        <a href="/forms/bookVehicle.html">
+          <div class="icon">📅</div>
+          <div class="label">Book a Vehicle</div>
+        </a>
+      </div>
+      
+      <div class="menu-item">
+        <a href="/forms/returnVehicle.html">
+          <div class="icon">✅</div>
+          <div class="label">Return Vehicle</div>
+        </a>
+      </div>
+      
+      <div class="menu-item">
+        <a href="/forms/viewBookings.html">
+          <div class="icon">📖</div>
+          <div class="label">View Customer Bookings</div>
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <footer>
+    &copy; 2025 Vehicle Rental System
+  </footer>
+</body>
+</html>
